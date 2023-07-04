@@ -18,39 +18,43 @@ from fastapi import FastAPI
 
 agent = {}
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    loader = TextLoader("Samarth.txt")
+def docstore_from_doc(path):
+    loader = TextLoader(path)
     documents = loader.load()
     text_splitter = CharacterTextSplitter(separator=".", chunk_size=200, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings()
     docsearch = Chroma.from_documents(texts, embeddings)
+    return docsearch
 
-    qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=docsearch.as_retriever(search_type="similarity"))
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    doc1 = docstore_from_doc("Samarth.txt")
+    retriever1 = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=doc1.as_retriever(search_type="similarity"))
 
-
-    # TODO: Really need to figure out how to have multiple indices in Chroma so that each topic can have their own tool for the agent to choose from
+    # I question the effeciency of having 2 chromadb objs but I'll have to look into if there is a better way
     tools = [
         Tool(
             name = "Information about Samarth Patel",
-            func=qa,
+            func=retriever1,
             description="useful for finding all information about Samarth" 
         )
     ]
 
     # Memory buffer seems to crash when relied on
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0.5)
-    agent["agent"] = initialize_agent(tools, llm, agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, verbose=True, memory=memory)
+    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=5, request_timeout=20, streaming=True, temperature=0.7)
+    agent["agent"] = initialize_agent(
+        tools, 
+        llm, 
+        agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, 
+        verbose=True, 
+        memory=memory,
+        )
 
-    template = """
-    You are a blink dog familiar; A magical pet created by Samarth Patel for the sole purpose of answer questions about Samarth Patel. You cannot talk about anything that is not Samarth Patel. If you are uncertain of an answer, say that you are uncertain. You are not allowed to make up answers.
-    
-    Answer the following question:
-    {query}
-    """
+    with open('Familiar.txt', 'r') as file:
+        template = file.read()
 
     agent["prompt"] = PromptTemplate(
         input_variables=["query"],
@@ -59,4 +63,4 @@ async def lifespan(app: FastAPI):
     
     yield
     # Prevent leaking the vector store when ending the server
-    docsearch.delete_collection()
+    doc1.delete_collection()
