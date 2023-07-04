@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
         )
     ]
 
-
+    # Memory buffer seems to crash when relied on
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0.5)
     agent["agent"] = initialize_agent(tools, llm, agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, verbose=True, memory=memory)
