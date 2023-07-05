@@ -21,7 +21,7 @@ agent = {}
 def docstore_from_doc(path):
     loader = TextLoader(path)
     documents = loader.load()
-    text_splitter = CharacterTextSplitter(separator=".", chunk_size=200, chunk_overlap=50)
+    text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings()
@@ -33,18 +33,17 @@ async def lifespan(app: FastAPI):
     doc1 = docstore_from_doc("Samarth.txt")
     retriever1 = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=doc1.as_retriever(search_type="similarity"))
 
-    # I question the effeciency of having 2 chromadb objs but I'll have to look into if there is a better way
     tools = [
         Tool(
             name = "Information about Samarth Patel",
             func=retriever1,
-            description="useful for finding all information about Samarth" 
+            description="useful for answering all questions" 
         )
     ]
 
     # Memory buffer seems to crash when relied on
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=5, request_timeout=20, temperature=0.7)
+    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=4, request_timeout=15, temperature=0.5)
     agent["agent"] = initialize_agent(
         tools, 
         llm, 
