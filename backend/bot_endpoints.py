@@ -13,7 +13,8 @@ async def answer(query: str):
         # Ratelimit and invalid openai request langchain nondeterministic bug response
         return {"response": "Sorry, I'm feeling a little overloaded, could you ask again in a few minutes?"}
     except (error.InvalidRequestError) as e:
-        return {"response": "Sorry, could you be more specific?"}
+        # Honestly this is so nondeterministic that correct behaviour might be to just retry...
+        return {"response": "Sorry, I was distracted by a squirrel, could you be more specific or repeat the question?"}
 
     return {"response": response}
 
