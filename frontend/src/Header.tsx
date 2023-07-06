@@ -13,25 +13,33 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Contact', 'Resume'];
+const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -48,9 +56,9 @@ function Header() {
             }}
           >
             LOGO
-          </Typography> */}
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, mr: 2}}> */}
-          <Box sx={{ flexGrow: 0}}>
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -66,12 +74,12 @@ function Header() {
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'right',
+                horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
@@ -86,8 +94,8 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
-          {/* <Typography
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
             variant="h5"
             noWrap
             component="a"
@@ -104,7 +112,7 @@ function Header() {
             }}
           >
             LOGO
-          </Typography> */}
+          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -117,7 +125,7 @@ function Header() {
             ))}
           </Box>
 
-          {/* <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -145,7 +153,7 @@ function Header() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box> */}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
