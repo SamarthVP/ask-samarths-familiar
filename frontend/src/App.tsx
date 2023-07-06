@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from './Header';
-
-import ChatBot from 'react-simple-chatbot';
+import ChatWindow from './ChatWIndow'
 
 function App() {
   return (
@@ -22,16 +21,7 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <ChatBot
-      width={1000}
-      steps={[
-        {
-          id: 'hello-world',
-          message: 'Hello World!',
-          trigger: 'hello-world',
-        },
-      ]}
-    />
+      <ChatWindow/>
     </div>
   );
 }
