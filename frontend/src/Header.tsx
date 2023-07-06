@@ -103,9 +103,21 @@ function Header() {
               <Button
                 key={page}
                 href={"/" + page}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 0, color: 'white', display: 'block' }}
               >
-                {page}
+                <Typography
+                  variant="h5"
+                  noWrap
+                  sx={{
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    letterSpacing: '.3rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                  }}
+                >
+                  {page}
+                </Typography>
               </Button>
             ))}
           </Box>
