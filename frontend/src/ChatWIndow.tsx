@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 
 type UserInputStep = {
-  value: String
+  value: string
 }
 
 type Steps = {
@@ -43,23 +43,31 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
   }
 
   componentDidMount(){
-    axios.post('http://127.0.0.1:8000/qa', {
-      query: this.props.steps? this.props.steps.userInput.value : "Incoherent question.",
-    })
-    .then((response) => {
-      console.log(response);
-      if (response.status === 200){
-        this.setState({loading: false, result: response.data.response})
-        this.triggerNext();
-      }
+    // axios.post('http://backend/qa', {
+    //   query: this.props.steps? this.props.steps.userInput.value : "Incoherent question.",
+    // })
+    // .then((response) => {
+    //   console.log(response);
+    //   if (response.status === 200){
+    //     this.setState({loading: false, result: response.data.response})
+    //     this.triggerNext();
+    //   }
       
-    })
-    .catch((error) => {
-      console.log(error);
+    // })
+    // .catch((error) => {
+    //   console.log(error);
 
-      // this.setState({loading: false, result: "bruh"});
-      // this.triggerNext();
-    });
+    //   // this.setState({loading: false, result: "bruh"});
+    //   // this.triggerNext();
+    // });
+    if (this.props.steps){
+      fetch("http://backend/qa?" + new URLSearchParams({query: this.props.steps.userInput.value}),{ method:"POST"})
+        .then(response=>response.json())
+        .then(data=>{ 
+          this.setState({loading: false, result: data.response})
+          this.triggerNext();
+        })
+    }
   }
 
   render() {
