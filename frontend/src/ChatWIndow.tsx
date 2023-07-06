@@ -48,21 +48,17 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
     })
     .then((response) => {
       console.log(response);
-      // if (response.status === 200){
-      //   this.setState({loading: false, result: response.data.response})
-      //   this.triggerNext();
-      // }
-      // else {
-      //   console.log(response);
-      // }
+      if (response.status === 200){
+        this.setState({loading: false, result: response.data.response})
+        this.triggerNext();
+      }
       
-      this.triggerNext();
     })
     .catch((error) => {
       console.log(error);
-      
-      this.setState({loading: false, result: "bruh"});
-      this.triggerNext();
+
+      // this.setState({loading: false, result: "bruh"});
+      // this.triggerNext();
     });
   }
 
