@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI):
         agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, 
         verbose=True, 
         memory=memory,
-        handle_parsing_errors=lambda x: x[28:],
+        handle_parsing_errors=lambda x: str(x)[28:],
         )
 
     with open('Familiar.txt', 'r') as file:
