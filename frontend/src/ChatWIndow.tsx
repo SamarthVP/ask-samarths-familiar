@@ -90,7 +90,7 @@ function ChatWindow(){
     steps={[
       {
         id: '1',
-        message: 'Say something',
+        message: "Woof, I'm Poof, a far from perfect blink dog familiar. Do you have questions about my creator?",
         trigger: 'userInput',
       },
       {

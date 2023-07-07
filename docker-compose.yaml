@@ -6,6 +6,8 @@ services:
       - "8000:8000"
     build:
       context: ./backend
+    volumes:
+      - "./logs:/logs"
     command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--reload"]
   frontend:
     container_name: frontend
@@ -27,12 +29,12 @@ services:
       - "/etc/nginx/certs"
       - "./certbot/conf:/etc/letsencrypt"
       - "./certbot/www:/var/www/certbot"
-        # certbot:
-        # image: certbot/certbot
-        # container_name: certbot
-        # volumes: 
-        # - "./certbot/conf:/etc/letsencrypt"
-        # - "./certbot/www:/var/www/certbot"
-        # depends_on:
-        # - nginx-proxy
-        # command: certonly --webroot -w /var/www/certbot --force-renewal --email sv7patel@gmail.com -d asksamarthsfamiliar.com -d www.asksamarthsfamiliar.com --agree-tos
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes: 
+  #     - "./certbot/conf:/etc/letsencrypt"
+  #     - "./certbot/www:/var/www/certbot"
+  #   depends_on:
+  #     - nginx-proxy
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email sv7patel@gmail.com -d asksamarthsfamiliar.com -d www.asksamarthsfamiliar.com --agree-tos
