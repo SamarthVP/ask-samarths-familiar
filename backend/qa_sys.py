@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
 
     def ensure_not_empty(action_input):
         if action_input == "":
-            return retriever1("overview")
+            return "Sorry, could you word that differently?"
         return retriever1(action_input)
 
     tools = [
@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
 
     # Memory buffer seems to crash when relied on
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=4, request_timeout=15, temperature=0.5, max_tokens=1000)
+    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=5, request_timeout=20, temperature=0.5, max_tokens=2000)
     agent["agent"] = initialize_agent(
         tools, 
         llm, 
