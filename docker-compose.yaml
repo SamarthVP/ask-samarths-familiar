@@ -13,8 +13,6 @@ services:
       - "3000:3000"
     build:
       context: ./frontend
-    depends_on:
-      - backend
   # nginx-proxy:
   #   restart: always
   #   build:

@@ -59,7 +59,7 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
     .catch((error) => {
       console.log(error);
 
-      this.setState({loading: false, result: "Sorry, I was distracted by a squirrel, could you be more specific or repeat the question?"});
+      this.setState({loading: false, result: "Sorry, I think my brain blinked away, can you repeat the question?"});
       this.triggerNext();
     });
     // if (this.props.steps){

@@ -33,17 +33,22 @@ async def lifespan(app: FastAPI):
     doc1 = docstore_from_doc("Samarth.txt")
     retriever1 = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=doc1.as_retriever(search_type="similarity"))
 
+    def ensure_not_empty(action_input):
+        if action_input == "":
+            return retriever1("overview")
+        return retriever1(action_input)
+
     tools = [
         Tool(
             name = "Information about Samarth Patel",
-            func=retriever1,
+            func=ensure_not_empty,
             description="useful for answering all questions" 
         )
     ]
 
     # Memory buffer seems to crash when relied on
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=4, request_timeout=15, temperature=0.5)
+    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=4, request_timeout=15, temperature=0.5, max_tokens=1000)
     agent["agent"] = initialize_agent(
         tools, 
         llm, 
@@ -51,6 +56,7 @@ async def lifespan(app: FastAPI):
         verbose=True, 
         memory=memory,
         handle_parsing_errors=lambda x: str(x)[28:],
+        reduce_k_below_max_tokens=True,
         )
 
     with open('Familiar.txt', 'r') as file:
