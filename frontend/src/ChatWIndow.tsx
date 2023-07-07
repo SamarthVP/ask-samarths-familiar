@@ -60,7 +60,8 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
       console.log(error);
 
       this.setState({loading: false, result: "Sorry, I think my brain blinked away, can you repeat the question?"});
-      this.triggerNext();
+      // this.setState({loading: false, result: error});
+	this.triggerNext();
     });
     // if (this.props.steps){
     //   fetch("http://localhost:8000/qa?" + new URLSearchParams({query: this.props.steps.userInput.value}),{ method:"POST"})
