@@ -44,7 +44,7 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
 
   componentDidMount(){
     console.log(this.props.steps? this.props.steps.userInput.value : "Incoherent question.");
-    axios.post('http://localhost:8000/api/qa', {
+    axios.post(`http://asksamarthsfamiliar.com/api/qa`, {
       query: this.props.steps? this.props.steps.userInput.value : "Incoherent question.",
     },
     )
