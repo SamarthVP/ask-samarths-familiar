@@ -43,31 +43,33 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
   }
 
   componentDidMount(){
-    // axios.post('http://backend/qa', {
-    //   query: this.props.steps? this.props.steps.userInput.value : "Incoherent question.",
-    // })
-    // .then((response) => {
-    //   console.log(response);
-    //   if (response.status === 200){
-    //     this.setState({loading: false, result: response.data.response})
-    //     this.triggerNext();
-    //   }
+    console.log(this.props.steps? this.props.steps.userInput.value : "Incoherent question.");
+    axios.post('http://localhost:8000/api/qa', {
+      query: this.props.steps? this.props.steps.userInput.value : "Incoherent question.",
+    },
+    )
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200){
+        this.setState({loading: false, result: response.data.response})
+        this.triggerNext();
+      }
       
-    // })
-    // .catch((error) => {
-    //   console.log(error);
+    })
+    .catch((error) => {
+      console.log(error);
 
-    //   // this.setState({loading: false, result: "bruh"});
-    //   // this.triggerNext();
-    // });
-    if (this.props.steps){
-      fetch("http://backend/qa?" + new URLSearchParams({query: this.props.steps.userInput.value}),{ method:"POST"})
-        .then(response=>response.json())
-        .then(data=>{ 
-          this.setState({loading: false, result: data.response})
-          this.triggerNext();
-        })
-    }
+      this.setState({loading: false, result: "Sorry, I was distracted by a squirrel, could you be more specific or repeat the question?"});
+      this.triggerNext();
+    });
+    // if (this.props.steps){
+    //   fetch("http://localhost:8000/qa?" + new URLSearchParams({query: this.props.steps.userInput.value}),{ method:"POST"})
+    //     .then(response=>response.json())
+    //     .then(data=>{ 
+    //       this.setState({loading: false, result: data.response})
+    //       this.triggerNext();
+    //     })
+    // }
   }
 
   render() {

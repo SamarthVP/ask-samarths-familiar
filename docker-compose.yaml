@@ -2,11 +2,11 @@ version: "3.8"
 services:
   backend:
     container_name: backend
-    expose:
-      - "80"
+    ports:
+      - "8000:8000"
     build:
       context: ./backend
-    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers", "--reload"]
+    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--reload"]
   frontend:
     container_name: frontend
     ports:
@@ -15,3 +15,15 @@ services:
       context: ./frontend
     depends_on:
       - backend
+  # nginx-proxy:
+  #   restart: always
+  #   build:
+  #     context: .
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - "/etc/nginx/vhost.d"
+  #     - "/var/log/nginx/"
+  #     - "/var/run/docker.sock:/tmp/docker.sock:ro"
+  #     - "/etc/nginx/certs"
