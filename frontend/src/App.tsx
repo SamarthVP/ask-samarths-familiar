@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './Header';
 import ChatWindow from './ChatWIndow'
+import Box from "@mui/material/Box"
 
 function App() {
   return (
@@ -21,7 +22,15 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <ChatWindow/>
+      <div style= {{backgroundImage: `url("/Image.jpeg")`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: '25% 65%',
+        width: '100vw',
+        height: '100vh'
+        }}>
+          <ChatWindow/>
+      </div>
     </div>
   );
 }

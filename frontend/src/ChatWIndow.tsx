@@ -2,6 +2,8 @@ import React, { useState, useEffect, Component } from 'react';
 import ChatBot, {Loading} from 'react-simple-chatbot';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import Box from "@mui/material/Box"
+import Fade from '@mui/material/Fade';
 
 type UserInputStep = {
   value: string
@@ -86,27 +88,34 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
 
 function ChatWindow(){
   return (
-    <ChatBot
-    width={1000}
-    steps={[
-      {
-        id: '1',
-        message: "Woof, I'm Poof, a far from perfect blink dog familiar. Do you have questions about my creator?",
-        trigger: 'userInput',
-      },
-      {
-        id: 'userInput',
-        user: true,
-        trigger: 'response',
-      },
-      {
-        id: 'response',
-        component: <GetResponse />,
-        waitAction: true,
-        trigger: 'userInput',
-      },
-    ]}
-    />
+    <Fade appear={true} in={true} timeout={2500} easing="ease-in">
+      <Box sx={{mr:25, ml:25, pb:20, pt:5}}>
+        <ChatBot
+        width={1000}
+        // hideHeader="true"
+        headerTitle="Meet Poof"
+        placeholder="Ask a question ..."
+        steps={[
+          {
+            id: '1',
+            message: "Woof, I'm Poof, a far from perfect blink dog familiar. Do you have questions about my creator?",
+            trigger: 'userInput',
+          },
+          {
+            id: 'userInput',
+            user: true,
+            trigger: 'response',
+          },
+          {
+            id: 'response',
+            component: <GetResponse />,
+            waitAction: true,
+            trigger: 'userInput',
+          },
+        ]}
+        />
+      </Box>
+    </Fade>
   )}
 
 export default ChatWindow
