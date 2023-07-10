@@ -12,10 +12,11 @@ function Home(){
         alignItems: "center",
         height: "100%"
       }}>
-      <div style= {{backgroundImage: `url("/Image.jpeg")`,
+      <div style= {{
+        backgroundImage: `url("/Image.jpeg")`,
+        backgroundPosition: '25% 65%',
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        backgroundPosition: '25% 65%',
         width: '99vw',
         height: '100vh'
         }}>
