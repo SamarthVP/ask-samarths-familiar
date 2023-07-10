@@ -40,7 +40,7 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <IconButton href="/" sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Avatar alt="Poof icon" src="/favicon.ico" />
           </IconButton>
 
           {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
