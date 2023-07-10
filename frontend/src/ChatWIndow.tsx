@@ -93,7 +93,7 @@ function ChatWindow(){
         <ChatBot
         width={1000}
         // hideHeader="true"
-        headerTitle="Meet Poof, Samarth's familiar"
+        headerTitle="Meet Poof, Samarth's Familiar"
         placeholder="Ask a question ..."
         botAvatar="/favicon.ico"
         steps={[

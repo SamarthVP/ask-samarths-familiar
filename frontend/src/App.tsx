@@ -3,35 +3,20 @@ import './App.css';
 import Header from './Header';
 import ChatWindow from './ChatWIndow'
 import Box from "@mui/material/Box"
+import Home from "./Home"
+import Resume from "./Resume"
+import { BrowserRouter as Router, Routes, Route }
+    from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
+    <Router>
       <Header></Header>
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://youtube.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <div style= {{backgroundImage: `url("/Image.jpeg")`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: '25% 65%',
-        width: '100vw',
-        height: '100vh'
-        }}>
-          <ChatWindow/>
-      </div>
-    </div>
+      <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/Resume' element={<Resume/>}/>
+      </Routes>
+    </Router>
   );
 }
 
