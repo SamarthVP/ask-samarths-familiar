@@ -6,12 +6,17 @@ import Box from "@mui/material/Box"
 
 function Home(){
     return (
-    <div className="App">
+    <div className="MainPage" style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%"
+      }}>
       <div style= {{backgroundImage: `url("/Image.jpeg")`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: '25% 65%',
-        width: '100vw',
+        width: '99vw',
         height: '100vh'
         }}>
           <ChatWindow/>

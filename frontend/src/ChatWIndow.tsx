@@ -88,7 +88,7 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
 
 function ChatWindow(){
   return (
-    <Fade appear={true} in={true} timeout={2500} easing="ease-in">
+    <Fade appear={true} in={true} timeout={1500} easing="ease-in">
       <Box sx={{mr:25, ml:25, pb:20, pt:5}}>
         <ChatBot
         width={1000}
