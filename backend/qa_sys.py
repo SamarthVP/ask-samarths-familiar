@@ -17,6 +17,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 agent = {}
+memory = {}
 
 def docstore_from_doc(path):
     loader = TextLoader(path)
@@ -46,15 +47,15 @@ async def lifespan(app: FastAPI):
         )
     ]
 
-    # Memory buffer seems to crash when relied on
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=2, request_timeout=30, temperature=0.5, max_tokens=2000)
+    # Memory buffer seems to crash when relied on, It goes over the max tokens, I should clear memory and try again when that happens
+    memory["memory"] = ConversationBufferMemory(memory_key="chat_history", return_messages=True, )
+    llm = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), max_retries=2, request_timeout=30, temperature=0.5, max_tokens=1000)
     agent["agent"] = initialize_agent(
         tools, 
         llm, 
         agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, 
         verbose=True, 
-        memory=memory,
+        memory=memory["memory"],
         handle_parsing_errors=lambda x: str(x)[28:],
         reduce_k_below_max_tokens=True,
         )

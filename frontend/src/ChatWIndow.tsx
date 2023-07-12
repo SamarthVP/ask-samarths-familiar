@@ -60,19 +60,22 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
     })
     .catch((error) => {
       console.log(error);
-
-      this.setState({loading: false, result: "Sorry, I think my brain blinked away, can you repeat the question?"});
-      // this.setState({loading: false, result: error});
-	this.triggerNext();
+      if (error.response){
+        if (error.response.status === 429){
+          this.setState({loading: false, result: "Sorry, I've recieved too many questions, I need to take a nap now. Can you ask again in a few minutes?"});
+          this.triggerNext();
+        }
+        else{
+          this.setState({loading: false, result: "Sorry, I think my brain blinked away, can you repeat the question?"});
+          this.triggerNext();
+        }
+      }
+      else{
+        this.setState({loading: false, result: "Sorry, I think my brain blinked away, can you repeat the question?"});
+        this.triggerNext();
+      }
+      
     });
-    // if (this.props.steps){
-    //   fetch("http://localhost:8000/qa?" + new URLSearchParams({query: this.props.steps.userInput.value}),{ method:"POST"})
-    //     .then(response=>response.json())
-    //     .then(data=>{ 
-    //       this.setState({loading: false, result: data.response})
-    //       this.triggerNext();
-    //     })
-    // }
   }
 
   render() {
