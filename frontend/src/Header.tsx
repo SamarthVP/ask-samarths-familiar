@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 
-const pages = ['Resume', 'Contact'];
+const pages = ['Resume'];
 
 function Header() {
 
@@ -22,9 +22,9 @@ function Header() {
               <Avatar alt="Poof icon" src="/favicon.ico" />
             </IconButton>
           </Link>
-          <Box sx={{ flexGrow: 1, justifyContent: "flex-end", display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, justifyContent: "flex-end", display: { xs: 'flex', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link to={"/" + page} style={{ textDecoration: 'none' }}>
+              <Link key={page} to={"/" + page} style={{ textDecoration: 'none' }}>
                 <Button
                   key={page}
                   sx={{ my: 0, color: 'white', display: 'block' }}

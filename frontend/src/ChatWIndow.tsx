@@ -4,6 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Box from "@mui/material/Box"
 import Fade from '@mui/material/Fade';
+import {isMobile} from 'react-device-detect';
 
 type UserInputStep = {
   value: string
@@ -89,10 +90,19 @@ class GetResponse extends Component<GetResponseProps, GetResponseStates> {
   }
 }
 
+function sx(){
+  if (isMobile){
+    return null
+  }
+  return {mr:25, ml:25, pb:20, pt:5}
+}
+
 function ChatWindow(){
   return (
     <Fade appear={true} in={true} timeout={1500} easing="ease-in">
-      <Box sx={{mr:25, ml:25, pb:20, pt:5}}>
+      <Box 
+      sx={sx()}
+      >
         <ChatBot
         width={1000}
         // hideHeader="true"
