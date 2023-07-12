@@ -1,5 +1,20 @@
 import React from 'react';
-import Fade from '@mui/material/Fade';
+import {isMobile} from 'react-device-detect';
+import { Page, Document, pdfjs } from 'react-pdf';
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css"
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+function load_resume(){
+  if (isMobile){
+    return (<Document file="/SamarthPatelResume.pdf" >
+              <Page pageNumber={1}/>
+            </Document>)
+  }
+  return (<object data="/SamarthPatelResume.pdf#toolbar=0" type="application/pdf" width="100%" height="100%" scroll-behavior= "smooth">
+    <p>Samarth's Resume</p>
+  </object>)
+}
 
 function Resume(){
     return (
@@ -14,13 +29,11 @@ function Resume(){
         backgroundSize: "cover",
         backgroundPosition: '25% 65%',
         width: '100vw',
-        height: '100vh'
+        height: '125vh',
+        display: "flex",
+        justifyContent: "center",
         }}>
-        {/* <Fade appear={true} in={true} timeout={2500} easing="ease-in"> */}
-            <object data="/SamarthPatelResume.pdf" type="application/pdf" width="100%" height="100%">
-                <p>Samarth's Resume</p>
-            </object>
-        {/* </Fade> */}
+            {load_resume()}
       </div>
     </div>
     )
