@@ -42,7 +42,7 @@ async def lifespan(app: FastAPI):
 
     def ensure_not_empty_samarth(action_input):
         if action_input == "":
-            return "You can reach out to Samarth Patel at sv7patel@gmail.com for an answer to that"
+            return retriever1("General Information")
         return retriever1(action_input)
     
     def ensure_not_empty_poof(action_input):

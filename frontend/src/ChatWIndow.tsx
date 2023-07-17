@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Box from "@mui/material/Box"
 import Fade from '@mui/material/Fade';
 import {isMobile} from 'react-device-detect';
+import { ThemeProvider } from 'styled-components';
 
 type UserInputStep = {
   value: string
@@ -97,37 +98,53 @@ function sx(){
   return {mr:25, ml:25, pb:20, pt:5}
 }
 
+const theme = {
+  background: '#f5f8fb',
+  // fontFamily: 'Arial',
+  headerBgColor: '#1976D2',
+  headerFontColor: '#fff',
+  // headerFontSize: '15px',
+  botBubbleColor: '#1976D2',
+  botFontColor: '#fff',
+  userBubbleColor: '#fff',
+  userFontColor: '#4a4a4a',
+};
+
 function ChatWindow(){
   return (
     <Fade appear={true} in={true} timeout={1500} easing="ease-in">
       <Box 
       sx={sx()}
       >
-        <ChatBot
-        width={1000}
-        // hideHeader="true"
-        headerTitle="Meet Poof, Samarth's Familiar"
-        placeholder="Ask a question ..."
-        botAvatar="/favicon.ico"
-        steps={[
-          {
-            id: '1',
-            message: "Woof, I'm Poof, a far from perfect blink dog familiar. Do you have questions about my creator?",
-            trigger: 'userInput',
-          },
-          {
-            id: 'userInput',
-            user: true,
-            trigger: 'response',
-          },
-          {
-            id: 'response',
-            component: <GetResponse />,
-            waitAction: true,
-            trigger: 'userInput',
-          },
-        ]}
-        />
+        <ThemeProvider theme={theme}>
+          <ChatBot
+          width={1000}
+          // hideHeader="true"
+          headerTitle="Meet Poof, Samarth's Familiar"
+          placeholder="Ask a question ..."
+          botAvatar="/favicon.ico"
+          bubbleOptionStyle={{"color": "red"}}
+          steps={[
+            {
+              id: '1',
+              message: "Woof, I'm Poof, a far from perfect blink dog familiar. Do you have questions about my creator?",
+              trigger: 'userInput',
+            },
+            {
+              id: 'userInput',
+              user: true,
+              trigger: 'response',
+            },
+            {
+              id: 'response',
+              component: <GetResponse />,
+              asMessage: true,
+              waitAction: true,
+              trigger: 'userInput',
+            },
+          ]}
+          />
+        </ThemeProvider>
       </Box>
     </Fade>
   )}
