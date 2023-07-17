@@ -19,10 +19,10 @@ from fastapi import FastAPI
 agent = {}
 memory = {}
 
-def docstore_from_doc(path):
+def docstore_from_doc(path, sep="\n\n"):
     loader = TextLoader(path)
     documents = loader.load()
-    text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=50)
+    text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=50, separator=sep)
     texts = text_splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings()
@@ -33,17 +33,43 @@ def docstore_from_doc(path):
 async def lifespan(app: FastAPI):
     doc1 = docstore_from_doc("Samarth.txt")
     retriever1 = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=doc1.as_retriever(search_type="similarity"))
+    
+    doc2 = docstore_from_doc("Poof.txt")
+    retriever2 = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=doc2.as_retriever(search_type="similarity"))
+    
+    doc3 = docstore_from_doc("SamarthExperience.txt")
+    retriever3 = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=doc3.as_retriever(search_type="similarity"))
 
-    def ensure_not_empty(action_input):
+    def ensure_not_empty_samarth(action_input):
         if action_input == "":
             return "You can reach out to Samarth Patel at sv7patel@gmail.com for an answer to that"
         return retriever1(action_input)
+    
+    def ensure_not_empty_poof(action_input):
+        if action_input == "":
+            return "You can reach out to Samarth Patel at sv7patel@gmail.com for an answer to that"
+        return retriever2(action_input)
+    
+    def ensure_not_empty_experience(action_input):
+        if action_input == "":
+            return "You can reach out to Samarth Patel at sv7patel@gmail.com for an answer to that"
+        return retriever3(action_input)
 
     tools = [
         Tool(
             name = "Information about Samarth Patel",
-            func=ensure_not_empty,
-            description="useful for answering all questions" 
+            func=ensure_not_empty_samarth,
+            description="useful for answering general questions about Samarth Patel" 
+        ),
+        Tool(
+            name = "Information about Poof",
+            func=ensure_not_empty_poof,
+            description="useful for answering questions about you, Poof, familiars, bling dogs, and why you are a bling dog familiar" 
+        ),
+        Tool(
+            name = "Information Samarth's experience",
+            func=ensure_not_empty_experience,
+            description="useful for answering specific questions about Samarth Patel's work experience and projects" 
         )
     ]
 
